@@ -120,38 +120,54 @@
             </div>
             <div class="col-sm-8">
               <div class="panel panel-default">
-                  {% macro render_pagination(pagination) %}
-                    <div class=pagination>
-                    {%- for page in pagination.iter_pages() %}
-                      {% if page %}
-                        {% if page != pagination.page %}
-                          <a href="{{ url_for_other_page(page) }}">{{ page }}</a>
-                        {% else %}
-                          <strong>{{ page }}</strong>
-                        {% endif %}
-                      {% else %}
-                        <span class=ellipsis>…</span>
-                      {% endif %}
-                    {%- endfor %}
-                    {% if pagination.has_next %}
-                      <a href="{{ url_for_other_page(pagination.page + 1)
-                        }}">Next &raquo;</a>
-                    {% endif %}
+                {% for ad in pagination.items %}
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div>
+                          <div class="row">
+                            <div class="col-sm-7">
+                              <p><strong>Продается {{ ad.rooms_number }}-комнатная квартира</strong></p>
+                            </div>
+                            <div class="col-sm-5">
+                              <p class="text-right"><strong class="nowrap">{{ ad.price }} р.</strong></p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <p>{{ ad.settlement }}, {{ ad.address }}</p>
+                              {{ad.id}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <p>
+                          <span class="label label-success">комнат: {{ ad.rooms_number }}</span>
+                          <span class="label label-primary">{{ ad.premise_area }} кв.м.</span>
+                        </p>
+                      </div>
                     </div>
-                  {% endmacro %}
-                  {{ render_pagination(pagination) }}
-                <div class="panel-body">
-                  <div class="clearfix">
-                    <ul class="pagination pull-right">
-                      <li class="disabled"><span>«</span></li>
-                      <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-                      <li><a href="?page=2" role="next">2</a></li>
-                      <li><a href="?page=3" role="next">3</a></li>
-                      <li><a href="?page=4" role="next">4</a></li>
-                      <li><a href="?page=2" role="next">»</a></li>
-                    </ul>
                   </div>
-                </div>
+                  <hr>
+                {% endfor %}
+
+{% macro render_pagination(pagination) %}
+  <div class=pagination>
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <a href="{{ url_for('homepage', page=page) }}">{{ page }}</a>
+      {% else %}
+        <strong>{{ page }}</strong>
+      {% endif %}
+    {% else %}
+      <span class=ellipsis>…</span>
+    {% endif %}
+  {%- endfor %}
+  </div>
+{% endmacro %}
+{{ render_pagination(pagination) }}
               </div>
             </div>
           </div>
