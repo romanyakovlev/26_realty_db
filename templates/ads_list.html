@@ -31,7 +31,7 @@
         <div class="col-md-9">
           <div class="row">
             <div class="col-sm-4">
-              <form role="form" class="panel panel-default" method="GET">
+              <form action="/" role="form" class="panel panel-default" method="GET">
                 <div class="panel-body">
                   <p>город / районный центр</p>
                   <div class="form-group">
@@ -103,14 +103,14 @@
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">от</span>
-                      <input autocomplete="off" type="text" value="" name="min_price" class="form-control js-price-format" placeholder="любая">
+                      <input autocomplete="off" id="min_price" type="text" value="" name="min_price" class="form-control js-price-format" placeholder="любая">
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">до</span>
-                      <input autocomplete="off" type="text" value="" name="max_price" class="form-control js-price-format" placeholder="любая">
+                      <input autocomplete="off" id="max_price" type="text" value="" name="max_price" class="form-control js-price-format" placeholder="любая">
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
@@ -151,23 +151,22 @@
                   </div>
                   <hr>
                 {% endfor %}
-
-{% macro render_pagination(pagination) %}
-  <div class=pagination>
-  {%- for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        <a href="{{ url_for('homepage', page=page) }}">{{ page }}</a>
-      {% else %}
-        <strong>{{ page }}</strong>
-      {% endif %}
-    {% else %}
-      <span class=ellipsis>…</span>
-    {% endif %}
-  {%- endfor %}
-  </div>
-{% endmacro %}
-{{ render_pagination(pagination) }}
+                {% macro render_pagination(pagination) %}
+                  <div class=pagination>
+                  {%- for page in pagination.iter_pages() %}
+                    {% if page %}
+                      {% if page != pagination.page %}
+                        <a href="{{ url_for('homepage', page=page) }}">{{ page }}</a>
+                      {% else %}
+                        <strong>{{ page }}</strong>
+                      {% endif %}
+                    {% else %}
+                      <span class=ellipsis>…</span>
+                    {% endif %}
+                  {%- endfor %}
+                  </div>
+                {% endmacro %}
+                {{ render_pagination(pagination) }}
               </div>
             </div>
           </div>
@@ -176,6 +175,19 @@
     </div><!-- /.container -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        $.urlParam = function(name){
+        	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        	return results[1] || 0;
+        }
+        if($.urlParam('oblast_district')){
+            var kek = $.urlParam('oblast_district');
+        }
+        $('select').val(decodeURI(kek).split('+').join(' ')).change();
+        $('#min_price').val($.urlParam('min_price')).change();
+        $('#max_price').val($.urlParam('max_price')).change();
+    </script>
   </body>
 </html>
