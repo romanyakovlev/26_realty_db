@@ -178,16 +178,83 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
-        $.urlParam = function(name){
-        	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        	return results[1] || 0;
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
         }
+    };
+
+        /*
         if($.urlParam('oblast_district')){
-            var kek = $.urlParam('oblast_district');
+            var select_item = $.urlParam('oblast_district');
         }
+        if($.urlParam('min_price')){
+            var min_price = $.urlParam('min_price');
+        }
+        if($.urlParam('max_price')){
+            var max_price = $.urlParam('max_price');
+        }
+
         $('select').val(decodeURI(kek).split('+').join(' ')).change();
         $('#min_price').val($.urlParam('min_price')).change();
         $('#max_price').val($.urlParam('max_price')).change();
+        */
+
+        window.onbeforeunload = function() {
+            sessionStorage.setItem('select_item', $('select').val());
+            sessionStorage.setItem('min_price', $('#min_price').val());
+            sessionStorage.setItem('max_price', $('#max_price').val());
+        }
+
+
+        window.onload = function() {
+
+            params_string = [];
+
+            var select_item = sessionStorage.getItem('select_item');
+            if (select_item != null) {
+                console.log('kek');
+                $('select').val(select_item);
+            }
+
+            var min_price = sessionStorage.getItem('min_price');
+
+            if (min_price != '') {
+                console.log('kek');
+                $('#min_price').val(min_price);
+            }
+
+            var max_price = sessionStorage.getItem('max_price');
+            if (max_price != '') {
+                $('#max_price').val(max_price);
+            }
+
+            if(!getUrlParameter('oblast_district')){
+                params_string.push('oblast_district'+'='+select_item.split(' ').join('+'));
+                params_string.push('min_price'+'='+min_price);
+                params_string.push('max_price'+'='+max_price);
+            };
+
+            console.log(params_string.length);
+
+            if (window.location.href.indexOf('?') == -1){
+                console.log(params_string.length);
+                a = window.location.href;
+                window.history.pushState("object or string", "Title", a+'?'+params_string.join('&'));
+            }
+
+        }
+
+
     </script>
   </body>
 </html>
