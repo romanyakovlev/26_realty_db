@@ -3,43 +3,33 @@ from app import app
 from models import Apartment
 from math import ceil
 from werkzeug.contrib.cache import SimpleCache
-
+from forms import PastebinEntry
 
 cache = SimpleCache()
 POSTS_PER_PAGE = 15
 
-@app.route('/', defaults={'page': 1})
-@app.route('/page/<int:page>')
-def homepage(page):
+
+@app.route('/', defaults={'page':1})
+@app.route('/<int:page>')
+def submit(page):
+    form = PastebinEntry()
+    if request.args.get('language'):
+        form.language.data = request.args.get('language')
+    if not request.args.get('new_building'):
+        form.new_building.data = False
+    if request.args.get('min_cost'):
+        form.min_cost.data = request.args.get('min_cost')
+    if request.args.get('max_cost'):
+        form.max_cost.data = request.args.get('max_cost')
+
     apartments = Apartment.query
-
-    if request.args.get('oblast_district'):
-        cache.set('oblast_district', request.args.get('oblast_district'))
-        apartments = apartments.filter(Apartment.oblast_district == request.args.get('oblast_district'))
-    else:
-        oblast_district_cache = cache.get('oblast_district')
-        if oblast_district_cache:
-            apartments = apartments.filter(Apartment.oblast_district == oblast_district_cache)
-
-    if request.args.get('min_price'):
-        cache.set('min_price', request.args.get('min_price'))
-        apartments = apartments.filter(Apartment.price >= int(request.args.get('min_price')))
-    else:
-        min_price_cache = cache.get('min_price')
-        if min_price_cache:
-            apartments = apartments.filter(Apartment.oblast_district >= min_price_cache)
-
-    if request.args.get('max_price'):
-        cache.set('max_price', request.args.get('max_price'))
-        apartments = apartments.filter(Apartment.price <= int(request.args.get('max_price')))
-    else:
-        max_price_cache = cache.get('max_price')
-        if max_price_cache:
-            apartments = apartments.filter(Apartment.oblast_district <= max_price_cache)
-
+    apartments = apartments.filter(Apartment.oblast_district == form.language.data)
+    apartments = apartments.filter(Apartment.price >= form.min_cost.data)
+    apartments = apartments.filter(Apartment.price <= form.max_cost.data)
     count = apartments.count()
     posts = apartments.paginate(page, POSTS_PER_PAGE, count)
-    return render_template('ads_list.html', pagination=posts)
+    print(form.data)
+    return render_template('ads_list.html', pagination=posts, form=form)
 
 
 if __name__ == "__main__":
