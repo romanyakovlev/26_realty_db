@@ -25,7 +25,6 @@ def ads_list(page):
     apartments = apartments.filter(Apartment.price <= form.max_cost.data)
     count = apartments.count()
     posts = apartments.paginate(page, POSTS_PER_PAGE, count)
-    print(form.data)
     return render_template('ads_list.html', pagination=posts, form=form)
 
 
