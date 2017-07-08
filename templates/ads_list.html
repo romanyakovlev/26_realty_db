@@ -35,7 +35,7 @@
                   <div class="panel-body">
                     <p>город / районный центр</p>
 
-                      {{ form.language(class_='form-control') }}
+                      {{ form.oblast_district(class_='form-control') }}
 
                      <div class="form-group ">
                       <div class="checkbox">
@@ -104,7 +104,7 @@
                   {%- for page in pagination.iter_pages() %}
                     {% if page %}
                       {% if page != pagination.page %}
-                        <a href="{{ url_for('submit', page=page, **form.data) }}">{{ page }}</a>
+                        <a href="{{ url_for('ads_list', page=page, **form.data) }}">{{ page }}</a>
                       {% else %}
                         <strong>{{ page }}</strong>
                       {% endif %}
