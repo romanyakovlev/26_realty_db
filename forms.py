@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm
+from wtforms.form import Form
 from wtforms.fields import SelectField, BooleanField, IntegerField
 from wtforms.widgets import HTMLString, html_params
 from wtforms.widgets import Select
@@ -8,6 +8,7 @@ from models import Apartment
 
 
 class ExtendedSelectWidget(Select):
+
     def __call__(self, field, **kwargs):
         kwargs.setdefault('id', field.id)
         html = ['<select {}>'.format(html_params(name=field.name, **kwargs))]
@@ -43,7 +44,8 @@ class ExtendedSelectField(SelectField):
         raise ValueError(self.gettext('Not a valid choice'))
 
 
-class ApartmentListForm(FlaskForm):
+class ApartmentListForm(Form):
+
     oblast_district = ExtendedSelectField('Город', choices=(
             ('Череповецкий район', 'Череповец'),
             ('Шекснинский район', 'Шексна'),
@@ -98,7 +100,7 @@ class ApartmentListForm(FlaskForm):
                 ('Междуреченский район', 'Шуйское'),
             )),
 
-    ), default=('Череповецкий район', 'Череповец'))
+    ), default='Череповецкий район')
     new_building = BooleanField('Новостройка', default=False)
     min_cost = IntegerField('Минимальная цена',
                             default = db.session.query(func.min(Apartment.price)).scalar())

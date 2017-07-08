@@ -1,7 +1,12 @@
 from main import db
+from datetime import date
+
+year_limit = 2
+current_year = date.today().year
 
 
 class Apartment(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     settlement = db.Column(db.String(500))
     under_construction = db.Column(db.Boolean)
@@ -15,7 +20,15 @@ class Apartment(db.Model):
     rooms_number = db.Column(db.Integer)
     premise_area = db.Column(db.Float)
     apartment_id = db.Column(db.Integer)
-    active = db.Column(db.Boolean, default=True)
+    active = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return self.settlement
+
+    def __init__(self, **kwargs):
+        super(Apartment, self).__init__(**kwargs)
+        if self.under_construction is True:
+            self.active = True
+        if isinstance(self.construction_year, int):
+            if current_year - self.construction_year <= year_limit:
+                self.active = True

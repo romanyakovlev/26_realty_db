@@ -10,7 +10,6 @@ POSTS_PER_PAGE = 15
 @app.route('/<int:page>')
 def ads_list(page):
     form = ApartmentListForm()
-
     if request.args.get('oblast_district'):
         form.oblast_district.data = request.args.get('oblast_district')
     if request.args.get('new_building'):
@@ -19,13 +18,14 @@ def ads_list(page):
         form.min_cost.data = request.args.get('min_cost')
     if request.args.get('max_cost'):
         form.max_cost.data = request.args.get('max_cost')
-
     apartments = Apartment.query
     apartments = apartments.filter(Apartment.oblast_district == form.oblast_district.data)
+    apartments = apartments.filter(Apartment.active == form.new_building.data)
     apartments = apartments.filter(Apartment.price >= form.min_cost.data)
     apartments = apartments.filter(Apartment.price <= form.max_cost.data)
     count = apartments.count()
     posts = apartments.paginate(page, POSTS_PER_PAGE, count)
+    print(form.data)
     return render_template('ads_list.html', pagination=posts, form=form)
 
 
