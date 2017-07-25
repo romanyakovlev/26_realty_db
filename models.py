@@ -10,8 +10,8 @@ class Apartment(db.Model):
     settlement = db.Column(db.String(500))
     under_construction = db.Column(db.Boolean)
     description = db.Column(db.Text)
-    price = db.Column(db.Integer)
-    oblast_district = db.Column(db.String(500))
+    price = db.Column(db.Integer, index=True)
+    oblast_district = db.Column(db.String(500), index=True)
     living_area = db.Column(db.Integer, default=None)
     has_balcony = db.Column(db.Boolean)
     address = db.Column(db.String(500), default="")
@@ -19,7 +19,7 @@ class Apartment(db.Model):
     rooms_number = db.Column(db.Integer)
     premise_area = db.Column(db.Float)
     apartment_id = db.Column(db.Integer)
-    active = db.Column(db.Boolean, default=True)
+    active = db.Column(db.Boolean, default=True, index=True)
     new_building = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
