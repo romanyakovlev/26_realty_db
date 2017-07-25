@@ -3,9 +3,6 @@ from datetime import date
 
 year_limit = 2
 
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 class Apartment(db.Model):
 

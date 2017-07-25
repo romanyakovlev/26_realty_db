@@ -13,7 +13,7 @@ def ads_list(page):
     apartments = Apartment.query
 
     if request.args.get('oblast_district'):
-        form_advert_info_advert_info['oblast_district'] = request.args.get('oblast_district')
+        form_advert_info['oblast_district'] = request.args.get('oblast_district')
         apartments = apartments.filter(Apartment.oblast_district == form_advert_info['oblast_district'])
 
     if request.args.get('new_building'):
