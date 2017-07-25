@@ -9,7 +9,7 @@ class Apartment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     settlement = db.Column(db.String(500))
     under_construction = db.Column(db.Boolean)
-    description = db.Column(db.String(500))
+    description = db.Column(db.Text)
     price = db.Column(db.Integer)
     oblast_district = db.Column(db.String(500))
     living_area = db.Column(db.Integer, default=None)

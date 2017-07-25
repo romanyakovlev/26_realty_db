@@ -1,6 +1,6 @@
 
 from models import Apartment
-import requests, json
+import requests
 from main import db
 import sqlalchemy
 
