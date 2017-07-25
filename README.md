@@ -4,7 +4,7 @@ Site that shows apartments sorted by region.
 
 # What in use
 - Flask
-- WTForms
+- Requests
 - SQLAlchemy
 
 # Installing
@@ -16,7 +16,11 @@ git clone https://github.com/romanyakovlev/24_telegraph
 
 create database file and fill it with data:
 ```sh
-python3 create_tables_and_fill_db.py
+python3 create_db.py
+```
+
+```sh
+python3 update_db.py
 ```
 
 run app locally:
