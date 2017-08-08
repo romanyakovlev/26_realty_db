@@ -104,14 +104,14 @@
                                    <div class="form-group ">
                                      <div class="input-group">
                                        <span class="input-group-addon">от</span>
-                                       <input autocomplete="off" type="text" name="min_cost" class="form-control js-price-format" placeholder="любая">
+                                       <input autocomplete="off" type="text" value="" name="min_cost" class="form-control js-price-format" placeholder="любая">
                                        <span class="input-group-addon">р.</span>
                                      </div>
                                    </div>
                                    <div class="form-group ">
                                      <div class="input-group">
                                        <span class="input-group-addon">до</span>
-                                       <input autocomplete="off" type="text" name="max_cost" class="form-control js-price-format" placeholder="любая">
+                                       <input autocomplete="off" type="text" value="" name="max_cost" class="form-control js-price-format" placeholder="любая">
                                        <span class="input-group-addon">р.</span>
                                      </div>
                                    </div>
@@ -186,11 +186,12 @@
            return null;
         }
         else{
-           return decodeURI(results[1]) || 0;
+           return decodeURI(results[1]);
         }
     }
-
-    $('select[name="oblast_district"]').val($.urlParam("oblast_district").split("+").join(" "));
+    if ($.urlParam("oblast_district")){
+        $('select[name="oblast_district"]').val($.urlParam("oblast_district").split("+").join(" "));
+    }
     $('input[name="min_cost"]').val($.urlParam("min_cost"));
     $('input[name="max_cost"]').val($.urlParam("max_cost"));
     if ($.urlParam("new_building")){
