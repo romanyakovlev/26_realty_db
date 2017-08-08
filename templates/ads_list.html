@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+
   </head>
 
   <body>
@@ -35,7 +36,7 @@
                                  <div class="panel-body">
                                    <p>город / районный центр</p>
                                    <div class="form-group">
-                                     <select name="oblast_district" class="form-control">
+                                     <select name="oblast_district" id="33" class="form-control">
                                        <option value="Череповецкий район">Череповец</option>
                                        <option value="Шекснинский район">Шексна</option>
                                        <option value="Вологодский район">Вологда</option>
@@ -94,7 +95,7 @@
                                    <div class="form-group ">
                                      <div class="checkbox">
                                        <label>
-                                         <input type="checkbox" name="new_building" value="True">
+                                         <input type="checkbox" name="new_building">
                                          только новостройки
                                        </label>
                                      </div>
@@ -103,14 +104,14 @@
                                    <div class="form-group ">
                                      <div class="input-group">
                                        <span class="input-group-addon">от</span>
-                                       <input autocomplete="off" type="text" value="" name="min_cost" class="form-control js-price-format" placeholder="любая">
+                                       <input autocomplete="off" type="text" name="min_cost" class="form-control js-price-format" placeholder="любая">
                                        <span class="input-group-addon">р.</span>
                                      </div>
                                    </div>
                                    <div class="form-group ">
                                      <div class="input-group">
                                        <span class="input-group-addon">до</span>
-                                       <input autocomplete="off" type="text" value="" name="max_cost" class="form-control js-price-format" placeholder="любая">
+                                       <input autocomplete="off" type="text" name="max_cost" class="form-control js-price-format" placeholder="любая">
                                        <span class="input-group-addon">р.</span>
                                      </div>
                                    </div>
@@ -178,5 +179,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return decodeURI(results[1]) || 0;
+        }
+    }
+
+    $('select[name="oblast_district"]').val($.urlParam("oblast_district").split("+").join(" "));
+    $('input[name="min_cost"]').val($.urlParam("min_cost"));
+    $('input[name="max_cost"]').val($.urlParam("max_cost"));
+    if ($.urlParam("new_building")){
+        $('input[type="checkbox"]').attr('checked');
+    }
+
+    </script>
   </body>
 </html>

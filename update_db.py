@@ -33,4 +33,7 @@ if __name__ == "__main__":
     except sqlalchemy.orm.exc.FlushError:
         print('Now you are trying to insert into db advert with id which already exist.Db changes is rolled back.')
         db.session.rollback()
+    except sqlalchemy.exc.TimeoutError:
+        print('Connection pool times out on getting a connection')
+        db.sessio.rollback()
     db.session.close()

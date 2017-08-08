@@ -1,6 +1,7 @@
 from flask import render_template, request
 from main import app
 from models import Apartment
+from sqlalchemy.sql import func
 
 POSTS_PER_PAGE = 15
 
@@ -9,29 +10,29 @@ POSTS_PER_PAGE = 15
 @app.route('/<int:page>')
 def ads_list(page):
 
-    form_advert_info = dict()
     apartments = Apartment.query
 
-    if request.args.get('oblast_district'):
-        form_advert_info['oblast_district'] = request.args.get('oblast_district')
-        apartments = apartments.filter(Apartment.oblast_district == form_advert_info['oblast_district'])
+    oblast_district = request.args.get('oblast_district', 'Череповецкий район')
+    new_building = request.args.get('new_building', None)
 
-    if request.args.get('new_building'):
-        form_advert_info['new_building'] = bool(request.args.get('new_building'))
-        apartments = apartments.filter(Apartment.active == form_advert_info['new_building'])
+    apartments = apartments.filter(Apartment.oblast_district == oblast_district)
+    if new_building:
+        apartments = apartments.filter(Apartment.active == new_building)
 
-    if request.args.get('min_cost'):
-        form_advert_info['min_cost'] = request.args.get('min_cost')
-        apartments = apartments.filter(Apartment.price >= form_advert_info['min_cost'])
+    min_cost = request.args.get('min_cost', 0)
+    max_cost = request.args.get('max_cost', apartments.order_by(Apartment.price)[-1].price if
+                                                                len(apartments.all()) != 0 else 0)
 
-    if request.args.get('max_cost'):
-        form_advert_info['max_cost'] = request.args.get('max_cost')
-        apartments = apartments.filter(Apartment.price <= form_advert_info['max_cost'])
+    apartments = apartments.filter(Apartment.price >= min_cost)
+    apartments = apartments.filter(Apartment.price <= max_cost)
+
+    print(request.args)
 
     count = apartments.count()
     posts = apartments.paginate(page, POSTS_PER_PAGE, count)
 
-    return render_template('ads_list.html', pagination=posts, form=form_advert_info)
+    return render_template('ads_list.html', pagination=posts,
+                                            form={})
 
 
 if __name__ == "__main__":
