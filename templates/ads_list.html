@@ -104,14 +104,22 @@
                                    <div class="form-group ">
                                      <div class="input-group">
                                        <span class="input-group-addon">от</span>
-                                       <input autocomplete="off" type="text" value="" name="min_cost" class="form-control js-price-format" placeholder="любая">
+                                        <input autocomplete="off" type="text" value="
+                                        {%- if get_params['min_cost'] -%}
+                                            {{ get_params['min_cost'][0] }}
+                                        {%- endif -%}
+                                        " name="min_cost" class="form-control js-price-format" placeholder="любая">
                                        <span class="input-group-addon">р.</span>
                                      </div>
                                    </div>
                                    <div class="form-group ">
                                      <div class="input-group">
                                        <span class="input-group-addon">до</span>
-                                       <input autocomplete="off" type="text" value="" name="max_cost" class="form-control js-price-format" placeholder="любая">
+                                       <input autocomplete="off" type="text" value="
+                                       {%- if get_params['max_cost'] -%}
+                                           {{ get_params['max_cost'][0] }}
+                                       {%- endif -%}
+                                       " name="max_cost" class="form-control js-price-format" placeholder="любая">
                                        <span class="input-group-addon">р.</span>
                                      </div>
                                    </div>
@@ -176,7 +184,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script>
+    <!--<script>
         $.urlParam = function(name){
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
             if (results==null){
@@ -195,6 +203,6 @@
             console.log('kek');
             $('input[type="checkbox"]').prop("checked", true) ;
         }
-    </script>
+    </script>-->
   </body>
 </html>
