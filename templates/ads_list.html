@@ -95,7 +95,9 @@
                                    <div class="form-group ">
                                      <div class="checkbox">
                                        <label>
-                                         <input type="checkbox" name="new_building">
+                                         <input type="checkbox" name="new_building"
+                                         {% if get_params['new_building'] %}checked{% endif %}
+                                         >
                                          только новостройки
                                        </label>
                                      </div>
@@ -184,25 +186,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!--<script>
-        $.urlParam = function(name){
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            if (results==null){
-               return null;
-            }
-            else{
-               return decodeURI(results[1]);
-            }
-        }
-        if ($.urlParam("oblast_district")){
-            $('select[name="oblast_district"]').val($.urlParam("oblast_district").split("+").join(" "));
-        }
-        $('input[name="min_cost"]').val($.urlParam("min_cost"));
-        $('input[name="max_cost"]').val($.urlParam("max_cost"));
-        if ($.urlParam("new_building")){
-            console.log('kek');
-            $('input[type="checkbox"]').prop("checked", true) ;
-        }
-    </script>-->
+    <script>
+        $('select[name="oblast_district"]').val("{{ get_params['oblast_district'][0] }}");
+    </script>
   </body>
 </html>

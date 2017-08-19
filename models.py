@@ -6,7 +6,7 @@ string_length = 500
 
 class Apartment(db.Model):
 
-    id = db.Column(db.Integer, primary_key=True)
+    primary_id = db.Column(db.Integer, primary_key=True)
     settlement = db.Column(db.String(string_length))
     under_construction = db.Column(db.Boolean)
     description = db.Column(db.Text)
