@@ -11,7 +11,7 @@ Site that shows apartments sorted by region.
 
 clone repo:
 ```sh
-git clone https://github.com/romanyakovlev/24_telegraph
+git clone https://github.com/romanyakovlev/26_realty_db
 ```
 
 create database file and fill it with data:
