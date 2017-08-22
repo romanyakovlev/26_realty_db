@@ -15,14 +15,14 @@ def get_json_data(url_path):
 def make_old_ads_unactive(db):
     active_ads_arr = db.session.query(Apartment).filter(Apartment.active == True)
     for active_ad in active_ads_arr:
-        active_ad.active = True
+        active_ad.active = False
 
 
 def insert_or_update_ads_into_db(db, json_data):
     ad_ids = [ad_obj.primary_id for ad_obj in db.session.query(Apartment).all()]
     for apartment_advert in json_data:
         changed_ad = {ad_key: ad_value for ad_key, ad_value in apartment_advert.items() if ad_key != 'id'}
-        changed_ad.update({'primary_id': apartment_advert['id']})
+        changed_ad.update({'primary_id': apartment_advert['id'], 'active': True})
         if changed_ad['primary_id'] in ad_ids:
             db.session.query(Apartment).filter(Apartment.primary_id==changed_ad['primary_id']).update(changed_ad)
         else:
